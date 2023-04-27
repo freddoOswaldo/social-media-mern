@@ -11,6 +11,21 @@ const constants = {
   REGISTER_LINK: "Si ya tienes cuenta, Inicia aquí",
   LOGIN_BUTTON: "Iniciar Sesión",
   REGISTER_BUTTON: "Registrarse",
+  GENERAL_ERROR: "Ha ocurrido un error, vuelva a intentarlo más tarde",
+  Friends: "Amigos",
+  VIEWED_LABEL: "Who's viewed your profile",
+  IMPRESSIONS_LABEL: "Impressions of your post",
+  TWITTER: "Twitter",
+  SOCIAL_NETWORK: "Social Network",
+  SOCIAL_PROFILE: "Social Profile",
+  LINKEDIN: "LinkedIn",
+  NETWORK_PLATFORM: "Network Platform",
+  PLACEHOLDER_INPUT_POST: "What's on your mind...",
+  IMAGE: "Imagen",
+  CLIP: "Clip",
+  AUDIO: "Audio",
+  ATTACHMENT: "Attachment",
+  POST: "POST",
 };
 
 export default constants;

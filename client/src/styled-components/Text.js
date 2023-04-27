@@ -13,3 +13,10 @@ export const LogoText = styled.span`
     `}
   }
 `;
+
+export const CustomSpan = styled.span`
+  color: ${({ color }) => color};
+  font-weight: ${({ fontWeight }) => fontWeight};
+  font-size: ${({ fontSize }) => fontSize};
+  cursor: ${({ cursor }) => cursor};
+`;

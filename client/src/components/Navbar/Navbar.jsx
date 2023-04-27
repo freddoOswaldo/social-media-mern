@@ -29,7 +29,7 @@ import LogoPrimary from "components/LogoPrimary";
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
+  const { user } = useSelector(({ user }) => user);
   const theme = useTheme();
   const isDesktop = useMediaQuery(constants.DESKTOP_MEDIA_QUERY);
   const menuRef = useRef();

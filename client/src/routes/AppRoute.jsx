@@ -3,8 +3,7 @@ import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 const AppRoute = () => {
-  const isAuth = Boolean(useSelector((state) => state.auth.token));
-
+  const { token: isAuth } = useSelector(({ auth }) => auth);
   return (
     <BrowserRouter>
       <Routes>
@@ -14,7 +13,7 @@ const AppRoute = () => {
         />
         <Route path="/home" element={isAuth ? <Home /> : <Navigate to="/" />} />
         <Route
-          path="/profile/:userId"
+          path="/profile"
           element={isAuth ? <Profile /> : <Navigate to="/" />}
         />
       </Routes>

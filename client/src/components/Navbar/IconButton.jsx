@@ -29,6 +29,7 @@ const IconButton = ({ children, handleClick }) => {
 
   return (
     <IconButtonStyled
+      type="button"
       backgroundColorHover={hoverButton}
       backgroundColorClicked={mediumLight}
       onClick={handleClick}

@@ -20,8 +20,23 @@ export const BoxFlex = styled.div`
     borderRadius,
     border,
     flexGrow,
+    height,
+    pv,
+    ph,
+    pt,
+    pl,
+    pr,
+    pb,
+    mv,
+    mh,
+    mt,
+    ml,
+    mr,
+    mb,
+    flexBasis,
   }) =>
     css`
+      flex-basis: ${flexBasis};
       gap: ${gap};
       background-color: ${backgroundColor};
       padding: ${padding};
@@ -32,5 +47,14 @@ export const BoxFlex = styled.div`
       border-radius: ${borderRadius};
       border: ${border};
       flex-grow: ${flexGrow};
+      height: ${height};
+      pt: ${pv || pt};
+      pb: ${pv || pb};
+      pr: ${ph || pr};
+      pl: ${ph || pl};
+      mt: ${mv || mt};
+      mb: ${mv || mb};
+      mr: ${mh || mr};
+      ml: ${mh || ml};
     `}
 `;

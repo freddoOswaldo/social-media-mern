@@ -25,7 +25,7 @@ const registerSchema = yup.object({
   password: yup.string().required(constants.DEFAULT_FIELD_REQUIRED_ERROR),
   location: yup.string().required(constants.DEFAULT_FIELD_REQUIRED_ERROR),
   occupation: yup.string().required(constants.DEFAULT_FIELD_REQUIRED_ERROR),
-  picture: yup.string().required(constants.DEFAULT_FIELD_REQUIRED_ERROR),
+  picture: yup.mixed().required(constants.DEFAULT_FIELD_REQUIRED_ERROR),
 });
 
 const loginSchema = yup.object({
@@ -63,7 +63,7 @@ const Form = () => {
   } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { fetching, success, error } = useSelector((state) => state.auth);
+  const { fetching, success, error } = useSelector(({ auth }) => auth);
   const isLogin = pageType === constantsForm.LOGIN;
   const {
     register,

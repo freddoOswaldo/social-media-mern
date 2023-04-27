@@ -6,10 +6,11 @@ export const ButtonSolid = styled.button`
   font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 1px;
-  border-radius: 4px;
   transition: 0.4s;
-  ${({ backgroundColor, hoverColor, activeColor, color }) =>
+  cursor: pointer;
+  ${({ backgroundColor, hoverColor, activeColor, color, borderRadius }) =>
     css`
+      border-radius: ${borderRadius};
       background-color: ${backgroundColor};
       color: ${color};
 

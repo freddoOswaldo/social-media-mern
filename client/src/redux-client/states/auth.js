@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as authApi from "api/auth";
-import { setUser } from "./user";
+import { initUser, setUser } from "./user";
+import constants from "utils/constants";
 
 const initialState = {
   user: null,
@@ -18,7 +19,13 @@ export const login = createAsyncThunk(
       thunkApi.dispatch(setUser(response.data));
       return response.data;
     } catch (err) {
-      return thunkApi.rejectWithValue(err.response.data);
+      return thunkApi.rejectWithValue(
+        err.response
+          ? err.response.data
+          : {
+              msg: constants.GENERAL_ERROR,
+            }
+      );
     }
   }
 );
@@ -27,10 +34,21 @@ export const register = createAsyncThunk(
   "auth/register",
   async (user, thunkApi) => {
     try {
-      const response = await authApi.register(user);
+      const formData = new FormData();
+      for (let value in user) {
+        formData.append(value, user[value]);
+      }
+      formData.append("picturePath", user.picture.name);
+      const response = await authApi.register(formData);
       return response.data;
     } catch (err) {
-      return thunkApi.rejectWithValue(err.response.data);
+      return thunkApi.rejectWithValue(
+        err.response
+          ? err.response.data
+          : {
+              msg: constants.GENERAL_ERROR,
+            }
+      );
     }
   }
 );
@@ -39,7 +57,10 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setLogout: (_state) => initialState,
+    setLogout: (_state) => {
+      initUser();
+      return initialState;
+    },
     init: (_state) => initialState,
   },
   extraReducers: (builder) => {
@@ -62,7 +83,6 @@ export const authSlice = createSlice({
         };
       })
       .addCase(login.fulfilled, (_state, action) => {
-        console.log(action);
         const { user, token } = action.payload;
         return {
           user,
