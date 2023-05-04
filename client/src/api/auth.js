@@ -1,4 +1,4 @@
-import axiosInstance, { useBaseUrl } from "./interceptor";
+import axiosInstance from "./interceptor";
 
 export const login = (email, password) =>
   axiosInstance.post("/auth/login", {

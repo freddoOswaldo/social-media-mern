@@ -48,13 +48,13 @@ export const BoxFlex = styled.div`
       border: ${border};
       flex-grow: ${flexGrow};
       height: ${height};
-      pt: ${pv || pt};
-      pb: ${pv || pb};
-      pr: ${ph || pr};
-      pl: ${ph || pl};
-      mt: ${mv || mt};
-      mb: ${mv || mb};
-      mr: ${mh || mr};
-      ml: ${mh || ml};
+      padding-top: ${pv || pt};
+      padding-bottom: ${pv || pb};
+      padding-right: ${ph || pr};
+      padding-left: ${ph || pl};
+      margin-top: ${mv || mt};
+      margin-bottom: ${mv || mb};
+      margin-right: ${mh || mr};
+      margin-left: ${mh || ml};
     `}
 `;

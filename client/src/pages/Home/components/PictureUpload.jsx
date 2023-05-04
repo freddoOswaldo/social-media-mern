@@ -1,4 +1,4 @@
-import { func, shape } from "prop-types";
+import { func, shape, instanceOf } from "prop-types";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { useTheme } from "@mui/material";
 import Dropzone from "react-dropzone";
@@ -57,7 +57,7 @@ const PictureUpload = ({ image, setImage }) => {
 };
 
 PictureUpload.propTypes = {
-  image: shape({}),
+  image: instanceOf(File),
   setImage: func.isRequired,
 };
 

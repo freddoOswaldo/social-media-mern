@@ -58,7 +58,6 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setLogout: (_state) => {
-      initUser();
       return initialState;
     },
     init: (_state) => initialState,

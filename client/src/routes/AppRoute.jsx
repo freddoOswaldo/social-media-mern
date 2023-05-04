@@ -13,7 +13,7 @@ const AppRoute = () => {
         />
         <Route path="/home" element={isAuth ? <Home /> : <Navigate to="/" />} />
         <Route
-          path="/profile"
+          path="/profile/:id"
           element={isAuth ? <Profile /> : <Navigate to="/" />}
         />
       </Routes>

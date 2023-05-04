@@ -16,6 +16,7 @@ export const ButtonSolid = styled.button`
 
       :disabled {
         background-color: ${hoverColor};
+        color: ${activeColor};
         span {
           color: ${activeColor};
         }

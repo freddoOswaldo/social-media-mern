@@ -27,17 +27,17 @@ const CustomH4 = styled.h4`
 
 const UserWidget = () => {
   const navigate = useNavigate();
-  const { token } = useSelector(({ auth }) => auth);
   const { user: userData } = useSelector(({ user }) => user);
   const {
     picturePath,
     firstName,
     lastName,
-    friends,
+    friends = {},
     occupation,
     location,
     viewedProfile,
     impressions,
+    _id,
   } = userData;
   const {
     palette: { neutral, primary },
@@ -45,14 +45,13 @@ const UserWidget = () => {
   const { dark, medium, main } = neutral;
   const { light } = primary;
   if (!userData) return null;
-
   return (
     <WidgetWrapper>
       <BoxFlex
         gap="0.5rem"
         pb="1.1rem"
         justifyContent="space-between"
-        onClick={() => navigate("/profile")}
+        onClick={() => navigate(`/profile/${_id}`)}
         alignItems="center"
       >
         <BoxFlex gap="1rem" alignItems="center" justifyContent="space-between">
@@ -62,7 +61,7 @@ const UserWidget = () => {
               {firstName} {lastName}
             </CustomH4>
             <CustomSpan color={medium}>
-              {friends.length} {constants.Friends}
+              {friends.length || 0} {constants.Friends}
             </CustomSpan>
           </BoxFlex>
         </BoxFlex>

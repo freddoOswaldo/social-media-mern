@@ -1,12 +1,14 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import * as userApi from "api/user";
 import constants from "utils/constants";
 
 const initialState = {
   user: null,
   posts: [],
-  fetching: null,
+  fetching: false,
   error: null,
+  fetchingFriend: false,
+  errorFriend: null,
 };
 
 export const createPost = createAsyncThunk(
@@ -15,6 +17,82 @@ export const createPost = createAsyncThunk(
     try {
       const { token } = thunkApi.getState().auth;
       const response = await userApi.createPost(post, token);
+      return response.data;
+    } catch (err) {
+      return thunkApi.rejectWithValue(
+        err.response
+          ? err.response.data
+          : {
+              msg: constants.GENERAL_ERROR,
+            }
+      );
+    }
+  }
+);
+
+export const getPosts = createAsyncThunk(
+  "getPosts",
+  async (_params, thunkApi) => {
+    try {
+      const { token } = thunkApi.getState().auth;
+      const response = await userApi.getPosts(token);
+      return response.data;
+    } catch (err) {
+      return thunkApi.rejectWithValue(
+        err.response
+          ? err.response.data
+          : {
+              msg: constants.GENERAL_ERROR,
+            }
+      );
+    }
+  }
+);
+
+export const getUserPosts = createAsyncThunk(
+  "getUserPosts",
+  async (userId, thunkApi) => {
+    try {
+      const { token } = thunkApi.getState().auth;
+      const response = await userApi.getUserPosts(userId, token);
+      return response.data;
+    } catch (err) {
+      return thunkApi.rejectWithValue(
+        err.response
+          ? err.response.data
+          : {
+              msg: constants.GENERAL_ERROR,
+            }
+      );
+    }
+  }
+);
+
+export const patchFriend = createAsyncThunk(
+  "patchFriend",
+  async ({ userId, friendId }, thunkApi) => {
+    try {
+      const { token } = thunkApi.getState().auth;
+      const response = await userApi.patchFriend(userId, friendId, token);
+      return response.data;
+    } catch (err) {
+      return thunkApi.rejectWithValue(
+        err.response
+          ? err.response.data
+          : {
+              msg: constants.GENERAL_ERROR,
+            }
+      );
+    }
+  }
+);
+
+export const patchLike = createAsyncThunk(
+  "patchFriend",
+  async ({ postId, userId }, thunkApi) => {
+    try {
+      const { token } = thunkApi.getState().auth;
+      const response = await userApi.patchLike(postId, userId, token);
       return response.data;
     } catch (err) {
       return thunkApi.rejectWithValue(
@@ -42,9 +120,6 @@ export const userSlice = createSlice({
       if (state.user) {
         state.user.friends = action.payload.friends;
       }
-      console.error(
-        "😞 ~ file: user.js:26 ~ setFriends: user friends non-existent"
-      );
     },
     setPosts: (state, action) => {
       return {
@@ -55,25 +130,28 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) =>
     builder
-      .addCase(createPost.pending, (state) => {
-        return {
-          ...state,
-          fetching: true,
-        };
-      })
-      .addCase(createPost.rejected, (state, action) => {
-        const { msg } = action.payload;
-        return {
-          ...state,
-          fetching: false,
-          error: msg,
-        };
-      })
-      .addCase(createPost.fulfilled, (state, { payload }) => {
-        const { postId, post: payloadPost } = payload;
-        const { posts } = state;
-        const updatedPosts = posts.map((post) =>
-          post._id === postId ? payloadPost : post
+      .addCase(patchFriend.pending, (state) => ({
+        ...state,
+        fetchingFriend: true,
+      }))
+      .addCase(patchFriend.rejected, (state, { payload: { msg } }) => ({
+        ...state,
+        fetchingFriend: false,
+        errorFriend: msg,
+      }))
+      .addCase(patchFriend.fulfilled, (state, { payload: { friends } }) => ({
+        ...state,
+        fetchingFriend: false,
+        errorFriend: null,
+        user: {
+          ...state.user,
+          friends,
+        },
+      }))
+      .addMatcher(isAnyOf(patchLike.fulfilled), (state, { payload }) => {
+        const { post: payloadPost } = payload;
+        const updatedPosts = state.posts.map((post) =>
+          post._id === payloadPost._id ? payloadPost : post
         );
         return {
           ...state,
@@ -81,7 +159,45 @@ export const userSlice = createSlice({
           error: null,
           posts: updatedPosts,
         };
-      }),
+      })
+      .addMatcher(
+        isAnyOf(
+          createPost.pending,
+          getPosts.pending,
+          getUserPosts.pending,
+          patchLike.pending
+        ),
+        (state) => ({
+          ...state,
+          fetching: true,
+        })
+      )
+      .addMatcher(
+        isAnyOf(
+          createPost.rejected,
+          getPosts.rejected,
+          getUserPosts.rejected,
+          patchLike.rejected
+        ),
+        (state, { payload: { msg } }) => ({
+          ...state,
+          fetching: false,
+          error: msg,
+        })
+      )
+      .addMatcher(
+        isAnyOf(
+          getPosts.fulfilled,
+          getUserPosts.fulfilled,
+          createPost.fulfilled
+        ),
+        (state, { payload: { posts } }) => ({
+          ...state,
+          fetching: false,
+          error: null,
+          posts,
+        })
+      ),
 });
 
 export const { setPost, setPosts, setFriends, setUser, clean, initUser } =

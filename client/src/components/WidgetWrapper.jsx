@@ -1,8 +1,8 @@
 import { useTheme } from "@mui/material";
-import { node } from "prop-types";
+import { node, string } from "prop-types";
 import { BoxFlex } from "styled-components/Layout";
 
-const WidgetWrapper = ({ children }) => {
+const WidgetWrapper = ({ children, m }) => {
   const {
     palette: { background },
   } = useTheme();
@@ -15,6 +15,7 @@ const WidgetWrapper = ({ children }) => {
       isVertical
       width="100%"
       height="fit-content"
+      margin={m}
     >
       {children}
     </BoxFlex>
@@ -22,7 +23,12 @@ const WidgetWrapper = ({ children }) => {
 };
 
 WidgetWrapper.propTypes = {
-  children: node,
+  children: node.isRequired,
+  m: string,
+};
+
+WidgetWrapper.defaultProps = {
+  m: null,
 };
 
 export default WidgetWrapper;

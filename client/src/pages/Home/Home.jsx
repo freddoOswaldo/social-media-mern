@@ -4,10 +4,10 @@ import useMediaQuery from "hooks/useMediaQuery";
 import constants from "utils/constants";
 import { BoxFlex } from "styled-components/Layout";
 import MyPostWidget from "./components/MyPostWidget";
+import PostsWidget from "./components/PostsWidget";
 
 const Home = () => {
   const isDesktop = useMediaQuery(constants.DESKTOP_MEDIA_QUERY);
-
   return (
     <BoxFlex isVertical>
       <Navbar />
@@ -18,16 +18,18 @@ const Home = () => {
         gap="0.5rem"
         justifyContent="space-between"
       >
-        <BoxFlex flexBasis={isDesktop ? "26%" : null}>
+        <BoxFlex isVertical flexBasis={isDesktop ? "26%" : null}>
           <UserWidget />
         </BoxFlex>
         <BoxFlex
+          isVertical
           flexBasis={isDesktop ? "42%" : null}
           mt={isDesktop ? null : "2rem"}
         >
           <MyPostWidget />
+          <PostsWidget />
         </BoxFlex>
-        {isDesktop && <BoxFlex flexBasis="26%"></BoxFlex>}
+        {isDesktop && <BoxFlex isVertical flexBasis="26%"></BoxFlex>}
       </BoxFlex>
     </BoxFlex>
   );

@@ -6,12 +6,28 @@ const axiosInstance = axios.create({
 });
 
 export const postWithToken = (uri, requestBody, token) => {
-  let headers = {
-    "Content-type": "application/json; charset=UTF-8",
+  const headers = {
     Authorization: `Bearer ${token}`,
   };
-  console.log(headers);
   return axiosInstance.post(uri, requestBody, {
+    headers: headers,
+  });
+};
+
+export const getWithToken = (uri, params = {}, token) => {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  return axiosInstance.get(uri, {
+    headers: headers,
+  });
+};
+
+export const patchWithToken = (uri, params = {}, token) => {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  return axiosInstance.patch(uri, params, {
     headers: headers,
   });
 };

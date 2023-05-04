@@ -20,3 +20,15 @@ export const CustomSpan = styled.span`
   font-size: ${({ fontSize }) => fontSize};
   cursor: ${({ cursor }) => cursor};
 `;
+
+export const CustomH5 = styled.h5`
+  color: ${({ color }) => color};
+  font-weight: ${({ fontWeight }) => fontWeight};
+  margin: 0;
+  &:hover {
+    cursor: pointer;
+    ${({ colorHover }) => css`
+      color: ${colorHover};
+    `}
+  }
+`;

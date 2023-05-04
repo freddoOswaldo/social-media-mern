@@ -19,7 +19,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { MenuNavbar } from "./styled-components";
 import FieldWithIcon from "./FieldWithIcon";
-import { setLogout, setMode } from "redux-client/states";
+import { initUser, setLogout, setMode } from "redux-client/states";
 import IconButton from "./IconButton";
 import useMediaQuery from "hooks/useMediaQuery";
 import { useRef } from "react";
@@ -74,7 +74,14 @@ const Navbar = () => {
           <MenuItem value={fullName}>
             <Typography>{fullName}</Typography>
           </MenuItem>
-          <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
+          <MenuItem
+            onClick={() => {
+              dispatch(setLogout());
+              dispatch(initUser());
+            }}
+          >
+            Log Out
+          </MenuItem>
         </Select>
       </FormControl>
     </>

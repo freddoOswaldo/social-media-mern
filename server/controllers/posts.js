@@ -24,8 +24,8 @@ export const createPost = async (req, res) => {
       comments: [],
     });
     await newPost.save();
-    const post = await Post.find();
-    res.status(201).json({ post });
+    const posts = await Post.find().sort({ createdAt: -1 });
+    res.status(201).json({ posts });
   } catch (error) {
     console.error("🤕 ~ file: posts.js:30 ~ createPost ~ error:", error);
     res.status(500).json({ msg: error.message });
@@ -33,7 +33,7 @@ export const createPost = async (req, res) => {
 };
 export const getFeedPosts = async (_req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().sort({ createdAt: -1 });
 
     res.status(200).json({ posts });
   } catch (error) {
@@ -61,7 +61,8 @@ export const likePost = async (req, res) => {
     const post = await Post.findById(id);
     if (!post) return res.status(404).json({ msg: "The post doesn't exist" });
 
-    const isLiked = await post.likes.get(id);
+    const isLiked = post.likes.get(userId);
+    console.log(post.likes);
     if (isLiked) {
       post.likes.delete(userId);
     } else {

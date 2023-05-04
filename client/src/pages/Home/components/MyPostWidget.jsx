@@ -27,21 +27,15 @@ const MyPostWidget = () => {
   const [image, setImage] = useState(null);
   const [post, setPost] = useState("");
   const {
-    palette: { neutral, background },
+    palette: { neutral },
   } = useTheme();
 
   const { medium, mediumMain } = neutral;
   const isDesktop = useMediaQuery(constants.DESKTOP_MEDIA_QUERY);
 
-  const {
-    user: userData,
-    fetching,
-    error,
-    posts,
-  } = useSelector(({ user }) => user);
+  const { user: userData } = useSelector(({ user }) => user);
   const { _id, picturePath } = userData;
   const handlePost = () => {
-    console.log(image, post);
     const formData = new FormData();
     formData.append("userId", _id);
     formData.append("description", post);
@@ -51,6 +45,7 @@ const MyPostWidget = () => {
     }
     dispatch(createPost(formData));
     setImage(null);
+    setIsImage(false);
     setPost("");
   };
 
