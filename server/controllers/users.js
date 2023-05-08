@@ -39,20 +39,17 @@ export const addRemoveFriend = async (req, res) => {
       return res.status(404).json({ msg: "User doesn't found" });
     if (user.friends.includes(friendId)) {
       user.friends = user.friends.filter((friend) => friend !== friendId);
-      friend.friends = friend.friends.filter((id) => id !== friendId);
+      friend.friends = friend.friends.filter((userId) => userId !== id);
     } else {
       user.friends.push(friendId);
       friend.friends.push(id);
     }
 
-    const friends = await User.find({
-      friends: {
-        $in: user.friends,
-      },
-    });
-
     await user.save();
     await friend.save();
+
+    const friends = await User.find().where("friends").in([id]);
+
     res.status(200).json({ friends });
   } catch (error) {
     console.error("🤕 ~ file: users.js:57 ~ getUser ~ error:", error);

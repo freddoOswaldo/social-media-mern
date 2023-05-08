@@ -104,7 +104,7 @@ const PostWidget = ({
         <BoxFlex isVertical mt="0.5rem">
           {comments.map((comment, i) => (
             <BoxFlex isVertical key={`${name}-${i}`}>
-              <Divider />
+              {i === 0 && <Divider />}
               <BoxFlex justifyContent="space-between" pl="1rem" m="0.5rem 0">
                 <CustomSpan color={main}>{comment}</CustomSpan>
               </BoxFlex>

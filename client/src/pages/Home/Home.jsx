@@ -5,6 +5,8 @@ import constants from "utils/constants";
 import { BoxFlex } from "styled-components/Layout";
 import MyPostWidget from "./components/MyPostWidget";
 import PostsWidget from "./components/PostsWidget";
+import AdvertWidget from "./components/AdvertWidget";
+import FriendListWidget from "./components/FriendListWidget";
 
 const Home = () => {
   const isDesktop = useMediaQuery(constants.DESKTOP_MEDIA_QUERY);
@@ -29,7 +31,13 @@ const Home = () => {
           <MyPostWidget />
           <PostsWidget />
         </BoxFlex>
-        {isDesktop && <BoxFlex isVertical flexBasis="26%"></BoxFlex>}
+        {isDesktop && (
+          <BoxFlex isVertical flexBasis="26%">
+            <AdvertWidget />
+            <BoxFlex isVertical margin="2rem 0" />
+            <FriendListWidget />
+          </BoxFlex>
+        )}
       </BoxFlex>
     </BoxFlex>
   );

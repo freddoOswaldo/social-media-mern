@@ -26,6 +26,13 @@ const constants = {
   AUDIO: "Audio",
   ATTACHMENT: "Attachment",
   POST: "POST",
+  SPONSORED: "Sponsored",
+  CREATE_AD: "Create Ad",
+  MIKA_COSMETICS: "MikaCosmetics",
+  MIKA_COSMETICS_URL: "mikacosmetics.com",
+  DESCRIPTIONS_AD:
+    "Your pathway to stunning and immaculate beauty and made sure your skin is exfoliating skin and shining like light.",
+  FRIEND_LIST_TITLE: "Lista de amigos",
 };
 
 export default constants;

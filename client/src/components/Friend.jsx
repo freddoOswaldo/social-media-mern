@@ -25,7 +25,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const { main, medium } = neutral;
 
   const isFriend = friends
-    ? friends.find(({ _id }) => _id === friendId)
+    ? friends.find(({ _id: friend }) => friend === friendId)
     : false;
 
   return (
@@ -47,24 +47,26 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
           </CustomSpan>
         </BoxFlex>
       </BoxFlex>
-      <IconButton
-        backgroundColor={light}
-        p="0.6rem"
-        handleClick={() =>
-          dispatch(
-            patchFriend({
-              userId: _id,
-              friendId,
-            })
-          )
-        }
-      >
-        {isFriend ? (
-          <PersonRemoveOutlined sx={{ color: dark }} />
-        ) : (
-          <PersonAddOutlined sx={{ color: dark }} />
-        )}
-      </IconButton>
+      {_id !== friendId && (
+        <IconButton
+          backgroundColor={light}
+          p="0.6rem"
+          handleClick={() =>
+            dispatch(
+              patchFriend({
+                userId: _id,
+                friendId,
+              })
+            )
+          }
+        >
+          {isFriend ? (
+            <PersonRemoveOutlined sx={{ color: dark }} />
+          ) : (
+            <PersonAddOutlined sx={{ color: dark }} />
+          )}
+        </IconButton>
+      )}
     </BoxFlex>
   );
 };

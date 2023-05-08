@@ -34,6 +34,14 @@ export const login = async (req, res) => {
       return res.status(400).json({ msg: "User or Password is incorrectt" });
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     delete user.password;
+
+    if (user.friends) {
+      const friends = await User.find()
+        .where("friends")
+        .in([user._id.toString()]);
+      user.friends = friends;
+    }
+
     return res.status(200).json({ token, user });
   } catch (error) {
     console.error("🤕 ~ file: auth.js:41 ~ login ~ error:", error);

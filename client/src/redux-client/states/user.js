@@ -88,7 +88,7 @@ export const patchFriend = createAsyncThunk(
 );
 
 export const patchLike = createAsyncThunk(
-  "patchFriend",
+  "patchLike",
   async ({ postId, userId }, thunkApi) => {
     try {
       const { token } = thunkApi.getState().auth;
@@ -167,10 +167,12 @@ export const userSlice = createSlice({
           getUserPosts.pending,
           patchLike.pending
         ),
-        (state) => ({
-          ...state,
-          fetching: true,
-        })
+        (state) => {
+          return {
+            ...state,
+            fetching: true,
+          };
+        }
       )
       .addMatcher(
         isAnyOf(
