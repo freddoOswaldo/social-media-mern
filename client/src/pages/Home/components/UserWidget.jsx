@@ -1,3 +1,4 @@
+import { bool } from "prop-types";
 import { useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -25,9 +26,17 @@ const CustomH4 = styled.h4`
   }
 `;
 
-const UserWidget = () => {
+const UserWidget = ({ fromProfile }) => {
   const navigate = useNavigate();
-  const { user: userData } = useSelector(({ user }) => user);
+  let userData = null;
+  if (fromProfile) {
+    const { profile } = useSelector(({ user }) => user);
+    userData = profile;
+  } else {
+    const { user } = useSelector(({ user }) => user);
+    userData = user;
+  }
+
   const {
     picturePath,
     firstName,
@@ -153,5 +162,13 @@ const UserWidget = () => {
       </BoxFlex>
     </WidgetWrapper>
   );
+};
+
+UserWidget.propTypes = {
+  fromProfile: bool,
+};
+
+UserWidget.defaultProps = {
+  fromProfile: false,
 };
 export default UserWidget;

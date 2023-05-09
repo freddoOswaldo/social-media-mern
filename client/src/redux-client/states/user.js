@@ -9,6 +9,9 @@ const initialState = {
   error: null,
   fetchingFriend: false,
   errorFriend: null,
+  profile: null,
+  fetchingProfile: false,
+  errorProfile: null,
 };
 
 export const createPost = createAsyncThunk(
@@ -106,6 +109,22 @@ export const patchLike = createAsyncThunk(
   }
 );
 
+export const getUser = createAsyncThunk("getUser", async (userId, thunkApi) => {
+  try {
+    const { token } = thunkApi.getState().auth;
+    const response = await userApi.getUser(userId, token);
+    return response.data;
+  } catch (err) {
+    return thunkApi.rejectWithValue(
+      err.response
+        ? err.response.data
+        : {
+            msg: constants.GENERAL_ERROR,
+          }
+    );
+  }
+});
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -116,6 +135,10 @@ export const userSlice = createSlice({
       user: action.payload.user,
     }),
     clean: (_state) => initialState,
+    cleanProfile: (state) => ({
+      ...state,
+      profile: null,
+    }),
     setFriends: (state, action) => {
       if (state.user) {
         state.user.friends = action.payload.friends;
@@ -148,6 +171,23 @@ export const userSlice = createSlice({
           friends,
         },
       }))
+      .addCase(getUser.pending, (state) => ({
+        ...state,
+        profile: null,
+        fetchingProfile: true,
+      }))
+      .addCase(getUser.rejected, (state, { payload: { msg } }) => ({
+        ...state,
+        fetchingProfile: false,
+        profile: null,
+        errorProfile: msg,
+      }))
+      .addCase(getUser.fulfilled, (state, { payload: { user } }) => ({
+        ...state,
+        fetchingProfile: false,
+        errorProfile: null,
+        profile: user,
+      }))
       .addMatcher(isAnyOf(patchLike.fulfilled), (state, { payload }) => {
         const { post: payloadPost } = payload;
         const updatedPosts = state.posts.map((post) =>
@@ -171,6 +211,7 @@ export const userSlice = createSlice({
           return {
             ...state,
             fetching: true,
+            posts: [],
           };
         }
       )
@@ -202,6 +243,13 @@ export const userSlice = createSlice({
       ),
 });
 
-export const { setPost, setPosts, setFriends, setUser, clean, initUser } =
-  userSlice.actions;
+export const {
+  setPost,
+  setPosts,
+  setFriends,
+  setUser,
+  clean,
+  initUser,
+  cleanProfile,
+} = userSlice.actions;
 export default userSlice.reducer;

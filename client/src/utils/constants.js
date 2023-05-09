@@ -2,7 +2,7 @@ const constants = {
   LOGO_TITLE: "SocialMedia",
   DARK: "dark",
   LIGHT: "light",
-  DESKTOP_MEDIA_QUERY: "(min-width:1000px)",
+  DESKTOP_MEDIA_QUERY: "(min-width:1100px)",
   MOBILE_MEDIA_QUERY: "(max-width:600px)",
   LOGIN_INTRODUCE: "Bienvenido a $LOGO_TITLE!",
   DEFAULT_FIELD_REQUIRED_ERROR: "campo requerido",

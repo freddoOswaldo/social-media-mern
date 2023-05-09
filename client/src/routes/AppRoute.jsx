@@ -1,3 +1,4 @@
+import Layout from "components/Layout";
 import { Home, Login, Profile } from "pages";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -11,11 +12,10 @@ const AppRoute = () => {
           path="/"
           element={!isAuth ? <Login /> : <Navigate to="/home" />}
         />
-        <Route path="/home" element={isAuth ? <Home /> : <Navigate to="/" />} />
-        <Route
-          path="/profile/:id"
-          element={isAuth ? <Profile /> : <Navigate to="/" />}
-        />
+        <Route path="" element={isAuth ? <Layout /> : <Navigate to="/" />}>
+          <Route path="home" element={<Home />} />
+          <Route path="profile/:userId" element={<Profile />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

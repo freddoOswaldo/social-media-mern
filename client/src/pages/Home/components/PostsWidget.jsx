@@ -4,15 +4,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPosts, getUserPosts } from "redux-client/states";
 import PostWidget from "./PostWidget";
 
-const PostsWidget = ({ isProfile }) => {
+const PostsWidget = ({ fromProfile }) => {
   const dispatch = useDispatch();
-  const {
-    posts,
-    user: { _id: id },
-  } = useSelector(({ user }) => user);
+
+  let userData = null;
+  const { posts } = useSelector(({ user }) => user);
+  if (fromProfile) {
+    const { profile } = useSelector(({ user }) => user);
+    userData = profile;
+  } else {
+    const { user } = useSelector(({ user }) => user);
+    userData = user;
+  }
+
   useEffect(() => {
-    if (isProfile) {
-      dispatch(getUserPosts(id));
+    if (fromProfile) {
+      dispatch(getUserPosts(userData._id));
     } else {
       dispatch(getPosts());
     }
@@ -53,10 +60,10 @@ const PostsWidget = ({ isProfile }) => {
 };
 
 PostsWidget.propTypes = {
-  isProfile: bool,
+  fromProfile: bool,
 };
 PostsWidget.defaultProps = {
-  isProfile: false,
+  fromProfile: false,
 };
 
 export default PostsWidget;

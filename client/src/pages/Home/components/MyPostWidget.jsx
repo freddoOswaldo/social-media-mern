@@ -1,15 +1,14 @@
 import { useTheme } from "@mui/material";
 import UserImage from "components/UserImage";
 import WidgetWrapper from "components/WidgetWrapper";
+import { bool } from "prop-types";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "redux-client/states";
 import { BoxFlex } from "styled-components/Layout";
 import constants from "utils/constants";
 import InputPost from "./InputPost";
-import Dropzone from "react-dropzone";
 import PictureUpload from "./PictureUpload";
-import { useForm } from "react-hook-form";
 import { Divider, MainButton } from "components";
 import {
   AttachFileOutlined,
@@ -21,7 +20,7 @@ import {
 import { CustomSpan } from "styled-components/Text";
 import useMediaQuery from "hooks/useMediaQuery";
 
-const MyPostWidget = () => {
+const MyPostWidget = ({ fromProfile }) => {
   const dispatch = useDispatch();
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
@@ -33,7 +32,15 @@ const MyPostWidget = () => {
   const { medium, mediumMain } = neutral;
   const isDesktop = useMediaQuery(constants.DESKTOP_MEDIA_QUERY);
 
-  const { user: userData } = useSelector(({ user }) => user);
+  let userData = null;
+  if (fromProfile) {
+    const { profile } = useSelector(({ user }) => user);
+    userData = profile;
+  } else {
+    const { user } = useSelector(({ user }) => user);
+    userData = user;
+  }
+
   const { _id, picturePath } = userData;
   const handlePost = () => {
     const formData = new FormData();
@@ -136,6 +143,14 @@ const MyPostWidget = () => {
       </BoxFlex>
     </WidgetWrapper>
   );
+};
+
+MyPostWidget.propTypes = {
+  fromProfile: bool,
+};
+
+MyPostWidget.defaultProps = {
+  fromProfile: false,
 };
 
 export default MyPostWidget;

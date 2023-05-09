@@ -13,5 +13,5 @@ export const patchFriend = (userId, friendId, token) =>
 export const patchLike = (postId, userId, token) =>
   patchWithToken(`/posts/${postId}/like`, { userId }, token);
 
-export const getFriends = (userId, token) =>
-  getWithToken(`/users/${userId}/friends`, { userId }, token);
+export const getUser = (userId, token) =>
+  getWithToken(`/users/${userId}`, null, token);

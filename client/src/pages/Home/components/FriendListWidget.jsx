@@ -8,7 +8,6 @@ import { CustomH5 } from "styled-components/Text";
 import constants from "utils/constants";
 
 const FriendListWidget = () => {
-  const navigate = useNavigate();
   const {
     user: { friends },
   } = useSelector(({ user }) => user);
@@ -19,7 +18,9 @@ const FriendListWidget = () => {
 
   const { dark } = neutral;
 
-  return !friends || friends.length === 0 ? null : (
+  if (!friends || friends.length === 0) return null;
+
+  return (
     <WidgetWrapper>
       <BoxFlex mb="1.5rem">
         <CustomH5 color={dark} fontWeight="500">

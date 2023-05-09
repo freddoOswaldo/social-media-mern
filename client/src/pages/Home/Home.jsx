@@ -12,7 +12,6 @@ const Home = () => {
   const isDesktop = useMediaQuery(constants.DESKTOP_MEDIA_QUERY);
   return (
     <BoxFlex isVertical>
-      <Navbar />
       <BoxFlex
         width="100%"
         padding="2rem 6%"
