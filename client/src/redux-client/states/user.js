@@ -201,12 +201,7 @@ export const userSlice = createSlice({
         };
       })
       .addMatcher(
-        isAnyOf(
-          createPost.pending,
-          getPosts.pending,
-          getUserPosts.pending,
-          patchLike.pending
-        ),
+        isAnyOf(createPost.pending, getPosts.pending, getUserPosts.pending),
         (state) => {
           return {
             ...state,
